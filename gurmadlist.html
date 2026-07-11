@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liiska Qaadhaanka – Gurmadka Guban</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+        #loginOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 20, 30, 0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            backdrop-filter: blur(6px);
+        }
+        .login-box {
+            background: white;
+            padding: 40px 35px;
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        .login-box .logo-mini {
+            height: 60px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: #1f6e8c;
+            padding: 4px 8px;
+        }
+        .login-box h2 {
+            color: #1f3a4b;
+            margin-bottom: 6px;
+        }
+        .login-box p {
+            color: #2c7da0;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            border: 1px solid #d4e3ec;
+            border-radius: 30px;
+            font-size: 15px;
+            background: #f8fafc;
+        }
+        .login-box input:focus {
+            border-color: #1f6e8c;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(31, 110, 140, 0.2);
+        }
+        .login-box .btn-login {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            background: #1f6e8c;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 4px;
+        }
+        .login-box .btn-login:hover {
+            background: #145a73;
+        }
+        .login-box .btn-guest {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #25D366;
+            border-radius: 30px;
+            background: transparent;
+            color: #128C7E;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .login-box .btn-guest:hover {
+            background: #25D366;
+            color: white;
+            border-color: #25D366;
+        }
+        .login-box .error-msg {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 8px;
+            min-height: 20px;
+        }
+        #app {
+            display: none;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 3px solid #1f6e8c;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .logo-container img {
+            height: 64px;
+            width: auto;
+            border-radius: 12px;
+            background: #1f6e8c;
+            padding: 4px 8px;
+            box-shadow: 0 4px 12px rgba(31, 110, 140, 0.3);
+            display: block;
+        }
+        .header-text h1 {
+            color: #1f3a4b;
+            font-size: 24px;
+        }
+        .header-text p {
+            color: #2c7da0;
+            font-weight: 500;
+        }
+        .header-text .website-link {
+            display: inline-block;
+            margin-top: 4px;
+            background: #1f6e8c;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .header-text .website-link:hover {
+            background: #145a73;
+            transform: translateY(-2px);
+        }
+        .logout-btn {
+            margin-left: auto;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .logout-btn:hover {
+            background: #b02a37;
+        }
+        .whatsapp-section {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            border-radius: 20px;
+            padding: 1rem 2rem;
+            margin: 1.5rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+        }
+        .whatsapp-section .whatsapp-text {
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: center;
+        }
+        .whatsapp-section .whatsapp-text span {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-top: 0.2rem;
+        }
+        .whatsapp-btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+        .btn-whatsapp {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-whatsapp-join {
+            background: #075E54;
+        }
+        .btn-whatsapp-join:hover {
+            background: #05423a;
+            transform: translateY(-2px);
+        }
+        .btn-whatsapp-share {
+            background: #25D366;
+        }
+        .btn-whatsapp-share:hover {
+            background: #1da851;
+            transform: translateY(-2px);
+        }
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0 1.5rem 0;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+        .tab-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 30px;
+            background: #e2e8f0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 14px;
+        }
+        .tab-btn.active {
+            background: #1f6e8c;
+            color: white;
+        }
+        .tab-btn:hover {
+            background: #cbd5e1;
+        }
+        .tab-content {
+            display: none;
+            padding: 1rem 0;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-pdf {
+            background: #e74c3c;
+        }
+        .btn-pdf:hover {
+            background: #c0392b;
+        }
+        .btn-word {
+            background: #2b5797;
+        }
+        .btn-word:hover {
+            background: #1a3f6d;
+        }
+        .btn-excel {
+            background: #217346;
+        }
+        .btn-excel:hover {
+            background: #165a33;
+        }
+        .btn-print {
+            background: #6c757d;
+        }
+        .btn-print:hover {
+            background: #5a6268;
+        }
+        .btn-success {
+            background: #28a745;
+        }
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #b02a37;
+        }
+        .btn-primary {
+            background: #1f6e8c;
+        }
+        .btn-primary:hover {
+            background: #145a73;
+        }
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+        .btn-sm {
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            border-radius: 20px;
+        }
+        .form-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #d4e3ec;
+            margin: 15px 0;
+            max-width: 600px;
+        }
+        .form-card .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: flex-end;
+        }
+        .form-card .form-group {
+            flex: 1;
+            min-width: 180px;
+        }
+        .form-card label {
+            display: block;
+            font-weight: 600;
+            color: #1f3a4b;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+        .form-card input,
+        .form-card select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #d4e3ec;
+            border-radius: 10px;
+            font-size: 14px;
+            background: white;
+        }
+        .form-card input:focus,
+        .form-card select:focus {
+            border-color: #1f6e8c;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(31, 110, 140, 0.2);
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 14px;
+            border: 1px solid #d4e3ec;
+            margin: 15px 0;
+            position: relative;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th {
+            background: #1f6e8c;
+            color: white;
+            padding: 10px 12px;
+            text-align: left;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #e2edf2;
+            vertical-align: middle;
+        }
+        tr:nth-child(even) {
+            background: #fafdff;
+        }
+        .paye {
+            background: #d4edda !important;
+        }
+        .impaye {
+            background: #f8d7da !important;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .stat-card {
+            background: #f4f9fe;
+            padding: 15px 20px;
+            border-radius: 14px;
+            border: 1px solid #d4e3ec;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1f6e8c;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: #2c7da0;
+            font-weight: 600;
+        }
+        .message {
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: none;
+        }
+        .message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: 30px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+        .footer a {
+            color: #1f6e8c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            background: #25D366;
+            border-radius: 50%;
+            padding: 16px;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 2rem;
+            line-height: 1;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 40px rgba(37, 211, 102, 0.6);
+        }
+        .guest-mode .tabs {
+            display: none !important;
+        }
+        .guest-mode .tab-content:not(#tab-invited) {
+            display: none !important;
+        }
+        .guest-mode #tab-invited {
+            display: block !important;
+        }
+        .guest-mode .form-card {
+            display: none !important;
+        }
+        .guest-mode .btn-danger {
+            display: none !important;
+        }
+        .guest-mode .btn-success {
+            display: none !important;
+        }
+        .guest-mode .btn-warning {
+            display: none !important;
+        }
+        /* --- Editable cell styles --- */
+        .editable-cell {
+            cursor: pointer;
+            position: relative;
+            transition: background 0.15s;
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+        .editable-cell:hover {
+            background: rgba(31, 110, 140, 0.08);
+        }
+        .editable-cell.editing {
+            padding: 2px 4px;
+            background: #fff;
+            box-shadow: 0 0 0 2px #1f6e8c;
+            border-radius: 6px;
+        }
+        .editable-cell .cell-input {
+            width: 100%;
+            min-width: 60px;
+            padding: 4px 6px;
+            border: none;
+            background: transparent;
+            font-size: inherit;
+            font-family: inherit;
+            color: inherit;
+            outline: none;
+        }
+        .editable-cell .cell-input:focus {
+            outline: none;
+        }
+        .editable-cell .cell-save-hint {
+            display: none;
+            font-size: 10px;
+            color: #1f6e8c;
+            margin-left: 6px;
+            opacity: 0.7;
+        }
+        .editable-cell.editing .cell-save-hint {
+            display: inline;
+        }
+        .editable-cell .cell-value {
+            display: inline-block;
+            padding: 2px 4px;
+        }
+        .editable-cell .cell-input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .guest-mode .editable-cell {
+            cursor: default !important;
+        }
+        .guest-mode .editable-cell:hover {
+            background: transparent !important;
+        }
+        .guest-mode .editable-cell .cell-input {
+            pointer-events: none;
+        }
+        .guest-mode .editable-cell .cell-save-hint {
+            display: none !important;
+        }
+        /* action buttons in table */
+        .action-cell {
+            white-space: nowrap;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .action-cell .btn {
+            padding: 2px 10px;
+            font-size: 0.7rem;
+            border-radius: 20px;
+            line-height: 1.6;
+        }
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            #loginOverlay {
+                display: none !important;
+            }
+            #app {
+                display: block !important;
+                box-shadow: none;
+                border-radius: 0;
+                padding: 20px;
+            }
+            .btn-group,
+            .btn,
+            .tabs,
+            .whatsapp-section,
+            .whatsapp-float,
+            .form-card,
+            .logout-btn,
+            .action-cell .btn {
+                display: none !important;
+            }
+            .tab-content {
+                display: block !important;
+            }
+            .tab-content:not(#tab-invited) {
+                display: none !important;
+            }
+            #tab-invited {
+                display: block !important;
+            }
+            .paye {
+                background: #d4edda !important;
+                print-color-adjust: exact;
+            }
+            .impaye {
+                background: #f8d7da !important;
+                print-color-adjust: exact;
+            }
+            th {
+                background: #1f6e8c !important;
+                color: white !important;
+                print-color-adjust: exact;
+            }
+            .editable-cell .cell-input {
+                border: none !important;
+                background: transparent !important;
+            }
+            .editable-cell .cell-save-hint {
+                display: none !important;
+            }
+        }
+        @media (max-width: 650px) {
+            .container {
+                padding: 15px;
+            }
+            th,
+            td {
+                font-size: 11px;
+                padding: 5px 6px;
+            }
+            .header-text h1 {
+                font-size: 20px;
+            }
+            .logo-container img {
+                height: 48px;
+            }
+            .whatsapp-section {
+                padding: 1rem;
+                flex-direction: column;
+            }
+            .whatsapp-float {
+                bottom: 15px;
+                right: 15px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                padding: 12px;
+            }
+            .login-box {
+                padding: 25px 20px;
+            }
+            .action-cell {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN OVERLAY -->
+    <div id="loginOverlay">
+        <div class="login-box">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyN9bGh7WdzG8Izrp0M0BtfviUDFxE5pdTYL699MBnU1m0d84uMzrrkKsyNy1sx90VR7nvLSp5JTGfAxObtek-O_X7nhVkGQ5KqcbOoY1ZTe9W2QVC4NeVaqIydvdXYayCze185tIjhH1PIWGxG3JUeZa2LRDKQ2Fb7GPlOzi2ggo7SQ/s1600/WhatsApp%20Image%202026-06-12%20at%2023.41.43.jpeg" alt="Logo" class="logo-mini" />
+            <h2>🔐 Gurmadka Guban</h2>
+            <p>Liiska Qaadhaanka – Ku soo gal</p>
+            <input type="text" id="username" placeholder="User" value="" />
+            <input type="password" id="password" placeholder="Password" value="" />
+            <button class="btn-login" onclick="adminLogin()">🚪 Ku soo gal (Admin)</button>
+            <div class="error-msg" id="loginError"></div>
+            <button class="btn-guest" onclick="guestLogin()">👁️ Ku soo gal sida Marti (Invited)</button>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="app">
+        <div class="header">
+            <div class="logo-container">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjyN9bGh7WdzG8Izrp0M0BtfviUDFxE5pdTYL699MBnU1m0d84uMzrrkKsyNy1sx90VR7nvLSp5JTGfAxObtek-O_X7nhVkGQ5KqcbOoY1ZTe9W2QVC4NeVaqIydvdXYayCze185tIjhH1PIWGxG3JUeZa2LRDKQ2Fb7GPlOzi2ggo7SQ/s1600/WhatsApp%20Image%202026-06-12%20at%2023.41.43.jpeg" alt="Logo UGG" />
+            </div>
+            <div class="header-text">
+                <h1>📋 LIISKA QAADHAANKA</h1>
+                <p>Ururka Gurmadka Guban · Reer Cabdirxmaan Ceeleye</p>
+                <a href="https://ururkagurmadkaguban.blogspot.com/" target="_blank" class="website-link">
+                    🌐 ururkagurmadkaguban.blogspot.com
+                </a>
+            </div>
+            <button class="logout-btn" onclick="logout()">🚪 Bax</button>
+        </div>
+
+        <div class="whatsapp-section">
+            <div class="whatsapp-text">
+                📱 Ku soo biir kooxda WhatsApp
+                <span>Wadaag liiska, hel warbixinno iyo isku xirka xubnaha</span>
+            </div>
+            <div class="whatsapp-btn-group">
+                <a href="https://chat.whatsapp.com/DnGaA64JJ7DFMDyVsUtQJi" target="_blank" class="btn-whatsapp btn-whatsapp-join">🔗 Ku soo Biir</a>
+                <a href="https://wa.me/?text=📋%20Liiska%20Qaadhaanka%20-%20Gurmadka%20Guban%0A%0AWebsite:%20https://ururkagurmadkaguban.blogspot.com/%0A%0AKu%20soo%20biir%20kooxda:%20https://chat.whatsapp.com/DnGaA64JJ7DFMDyVsUtQJi" target="_blank" class="btn-whatsapp btn-whatsapp-share">📤 La wadaag</a>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs" role="tablist" id="mainTabs">
+            <button class="tab-btn active" role="tab" aria-selected="true" data-tab="warbixin">📊 Warbixin</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="addmember">➕ Ku dar Xubin Cusub</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="tirakoob">📈 Tirakoob</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="liiska">📊 Liiska Guud</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="diwaangelinta">💰 Diwaangelinta Bixiinta</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="invited">📋 Daqadda Invited</button>
+        </div>
+
+        <!-- TAB 1: WARBIXIN -->
+        <div class="tab-content active" id="tab-warbixin" role="tabpanel">
+            <h2>📊 Warbixin Guud</h2>
+            <div class="stats-grid" id="summaryStats">
+                <div class="stat-card"><div class="stat-number" id="sTotal">0</div><div class="stat-label">Wadarta Xubnaha</div></div>
+                <div class="stat-card"><div class="stat-number" id="sPaye">0</div><div class="stat-label">✅ Bixiyey</div></div>
+                <div class="stat-card"><div class="stat-number" id="sImpaye">0</div><div class="stat-label">❌ Aan Bixin</div></div>
+                <div class="stat-card"><div class="stat-number" id="sMontant">0 FDJ</div><div class="stat-label">Wadarta Lacagta</div></div>
+            </div>
+            <p style="color:#555; font-size:14px;">Liiska waxa uu muujinayaa xubnaha iyo lacagaha ay bixiyeen. Waxaad ku dari kartaa xubno cusub tabka ku xiga, ama ku dar bixiinta tabka liiska guud ama tabka diwaangelinta.</p>
+            <div style="margin-top:10px; font-size:13px; color:#2c7da0;">
+                <span id="reportDate"></span>
+            </div>
+        </div>
+
+        <!-- TAB 2: KU DAR XUBIN -->
+        <div class="tab-content" id="tab-addmember" role="tabpanel">
+            <h2>➕ Ku dar Xubin Cusub</h2>
+            <div class="form-card">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="newName">Magaca</label>
+                        <input type="text" id="newName" placeholder="Magaca buuxa" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="newPhone">Telefoon</label>
+                        <input type="text" id="newPhone" placeholder="+252 6X XXXXXXX" />
+                    </div>
+                    <div class="form-group" style="min-width:120px;">
+                        <button class="btn btn-primary" onclick="addMember()" style="width:100%;">➕ Ku Dar</button>
+                    </div>
+                </div>
+                <div id="addMemberMessage" class="message" role="alert"></div>
+            </div>
+            <p style="color:#666; font-size:13px;">Xubinta cusub waxay ku biiri doontaa liiska, lacagteeda waa 0 ilaa aad ku darto bixin.</p>
+        </div>
+
+        <!-- TAB 3: TIRAKOOB -->
+        <div class="tab-content" id="tab-tirakoob" role="tabpanel">
+            <h2>📈 Tirakoob Faahfaahsan</h2>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-number" id="tTotal">0</div><div class="stat-label">Wadarta Xubnaha</div></div>
+                <div class="stat-card"><div class="stat-number" id="tPaye">0</div><div class="stat-label">Bixiyey (boqolkiiba)</div></div>
+                <div class="stat-card"><div class="stat-number" id="tImpaye">0</div><div class="stat-label">Aan Bixin (boqolkiiba)</div></div>
+                <div class="stat-card"><div class="stat-number" id="tMontant">0 FDJ</div><div class="stat-label">Wadarta Lacagta</div></div>
+            </div>
+            <h3 style="margin-top:20px;">📋 Liiska kuwa bixiyey</h3>
+            <div class="table-wrapper" style="max-height:200px; overflow-y:auto;">
+                <table>
+                    <thead><tr><th>Magaca</th><th style="text-align:right;">Lacagta (FDJ)</th></tr></thead>
+                    <tbody id="paidList"></tbody>
+                </table>
+            </div>
+            <h3 style="margin-top:20px;">📋 Liiska kuwa aan bixin</h3>
+            <div class="table-wrapper" style="max-height:200px; overflow-y:auto;">
+                <table>
+                    <thead><tr><th>Magaca</th><th>Telefoon</th></tr></thead>
+                    <tbody id="unpaidList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 4: LIISKA GUUD (admin full) -->
+        <div class="tab-content" id="tab-liiska" role="tabpanel">
+            <h2>📊 Liiska Guud</h2>
+            <div class="table-wrapper" style="max-height:500px; overflow-y:auto;">
+                <table>
+                    <thead><tr><th>Tir.</th><th>Magaca</th><th>Telefoon</th><th style="text-align:right;">Lacagta (FDJ)</th><th>Xaalad</th><th>Fal</th></tr></thead>
+                    <tbody id="fullTable"></tbody>
+                </table>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-pdf" onclick="exportPDF(true)">📄 Soo Deji PDF</button>
+                <button class="btn btn-word" onclick="exportWord(true)">📄 Soo Deji Word</button>
+                <button class="btn btn-excel" onclick="exportExcel(true)">📊 Soo Deji Excel</button>
+                <button class="btn btn-print" onclick="window.print()">🖨️ Daabac</button>
+            </div>
+
+            <h3 style="margin-top:30px;">💰 Ku Dar Bixiinta Lacag</h3>
+            <div class="form-card">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="paymentMember">Xubin</label>
+                        <select id="paymentMember"><option value="">-- Dooro --</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentAmount">Lacagta (FDJ)</label>
+                        <input type="number" id="paymentAmount" placeholder="1000" min="100" step="100" />
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentDate">Taariikhda</label>
+                        <input type="date" id="paymentDate" />
+                    </div>
+                    <div class="form-group" style="min-width:120px;">
+                        <button class="btn btn-success" onclick="addPayment()" style="width:100%;">✅ Ku Dar</button>
+                    </div>
+                </div>
+                <div id="paymentMessage" class="message" role="alert"></div>
+            </div>
+
+            <h3 style="margin-top:20px;">📋 Taariikhda Bixiinta</h3>
+            <div class="table-wrapper payment-history" style="max-height:200px; overflow-y:auto;">
+                <table>
+                    <thead><tr><th>ID</th><th>Xubin</th><th style="text-align:right;">Lacagta (FDJ)</th><th>Taariikhda</th><th>Fal</th></tr></thead>
+                    <tbody id="paymentTable"></tbody>
+                </table>
+            </div>
+            <div style="margin-top:1rem; display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn btn-danger" onclick="clearAllPayments()">🗑️ Nadiifi Dhammaan Bixiinta</button>
+            </div>
+        </div>
+
+        <!-- TAB 5: DIWAANGELINTA BIXIINTA -->
+        <div class="tab-content" id="tab-diwaangelinta" role="tabpanel">
+            <h2>💰 Diwaangelinta Bixiinta</h2>
+            <p style="color:#2c7da0; margin-bottom:1rem;">Ku dar bixiinta xubin, ama fiiri taariikhda dhammaan bixiinta.</p>
+
+            <div class="form-card">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="paymentMember2">Xubin</label>
+                        <select id="paymentMember2"><option value="">-- Dooro --</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentAmount2">Lacagta (FDJ)</label>
+                        <input type="number" id="paymentAmount2" placeholder="1000" min="100" step="100" />
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentDate2">Taariikhda</label>
+                        <input type="date" id="paymentDate2" />
+                    </div>
+                    <div class="form-group" style="min-width:120px;">
+                        <button class="btn btn-success" onclick="addPayment2()" style="width:100%;">✅ Ku Dar</button>
+                    </div>
+                </div>
+                <div id="paymentMessage2" class="message" role="alert"></div>
+            </div>
+
+            <h3 style="margin-top:20px;">📋 Taariikhda Bixiinta</h3>
+            <div class="table-wrapper payment-history" style="max-height:300px; overflow-y:auto;">
+                <table>
+                    <thead><tr><th>ID</th><th>Xubin</th><th style="text-align:right;">Lacagta (FDJ)</th><th>Taariikhda</th><th>Fal</th></tr></thead>
+                    <tbody id="paymentTable2"></tbody>
+                </table>
+            </div>
+            <div style="margin-top:1rem; display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn btn-danger" onclick="clearAllPayments()">🗑️ Nadiifi Dhammaan Bixiinta</button>
+            </div>
+        </div>
+
+        <!-- TAB 6: INVITED (no phone, read-only but editable name) -->
+        <div class="tab-content" id="tab-invited" role="tabpanel">
+            <h2>📋 Daqadda Invited – Liiska Qaadhaanka</h2>
+            <p style="color:#2c7da0; margin-bottom:1rem;">Kani waa daqad loogu talagalay martida – waxaad arki kartaa magacyada iyo lacagaha, laakiin <strong>lambarro taleefan ma jiraan</strong> si loo ilaaliyo khaabiga. Waxaad ku bedeli kartaa magaca (double-click) haddii aad tahay admin.</p>
+            <div class="btn-group">
+                <button class="btn btn-pdf" onclick="exportPDF(false)">📄 Soo Deji PDF</button>
+                <button class="btn btn-word" onclick="exportWord(false)">📄 Soo Deji Word</button>
+                <button class="btn btn-excel" onclick="exportExcel(false)">📊 Soo Deji Excel</button>
+                <button class="btn btn-print" onclick="window.print()">🖨️ Daabac</button>
+            </div>
+            <div class="table-wrapper" style="max-height:600px; overflow-y:auto;">
+                <table>
+                    <thead><tr><th>Tir.</th><th>Magaca</th><th style="text-align:right;">Lacagta (FDJ)</th><th>Xaalad</th><th>Fal</th></tr></thead>
+                    <tbody id="invitedTable"></tbody>
+                </table>
+            </div>
+            <p style="margin-top:10px; color:#888; font-size:13px;">💡 Daqaddan waxaa loogu talagalay dadka lagu casuumay – waxaad arki kartaa oo kaliya, waxna ma bedeli kartid. Lambarro taleefan lama muujiyo.</p>
+        </div>
+
+        <div class="footer">
+            <p>📅 Liiska la cusboonaysiiyay <span id="footerDate"></span> &nbsp;|&nbsp; 🏠 Ururka Gurmadka Guban &nbsp;|&nbsp; 🌐 <a href="https://ururkagurmadkaguban.blogspot.com/" target="_blank">ururkagurmadkaguban.blogspot.com</a></p>
+            <p style="margin-top:5px; font-size:11px; color:#aaa;">
+                💰 Wadarta Lacagta: <span id="footerTotal">0</span> FDJ &nbsp;|&nbsp;
+                ✅ Bixiyey: <span id="footerPaye">0</span> &nbsp;|&nbsp;
+                ❌ Aan Bixin: <span id="footerImpaye">0</span>
+            </p>
+        </div>
+    </div>
+
+    <a href="https://chat.whatsapp.com/DnGaA64JJ7DFMDyVsUtQJi" target="_blank" class="whatsapp-float" aria-label="Ku soo biir WhatsApp">💬</a>
+
+    <script>
+        // ============================================================
+        // CONSTANTS & STATE
+        // ============================================================
+        const VALID_USER = 'admin';
+        const VALID_PASS = 'guban2147';
+        let appMode = 'login'; // 'login' | 'admin' | 'guest'
+
+        // ============================================================
+        // DATA – 107 members with pre‑loaded payments (8 paid)
+        // ============================================================
+        const MEMBERS_DATA = [
+            { name: "Abdi", phone: "+252 63 8235252", amount: 0 },
+            { name: "Abdi Ali Sougal", phone: "+251 91 516 0421", amount: 0 },
+            { name: "Abdi Houssein", phone: "+253 77 78 85 91", amount: 0 },
+            { name: "abdi farah", phone: "+253 77 58 48 45", amount: 0 },
+            { name: "AbdiLaahi", phone: "+252 63 4528311", amount: 0 },
+            { name: "Abdillahi Prado", phone: "+971 58 253 8763", amount: 0 },
+            { name: "Abdoulkader Waiss Sigad", phone: "+253 77 84 18 48", amount: 0 },
+            { name: "Abdourahman Djama", phone: "+253 77 60 50 33", amount: 4000 },
+            { name: "Abdourahman Hamoud", phone: "+253 77 85 04 06", amount: 0 },
+            { name: "Abdourahman Ibrahim Maham", phone: "+253 77 24 10 28", amount: 2000 },
+            { name: "abgaal caamir", phone: "+251 91 515 4058", amount: 0 },
+            { name: "aden fanah", phone: "+251 92 812 9963", amount: 0 },
+            { name: "Aden Garouf", phone: "+253 77 12 12 55", amount: 0 },
+            { name: "Aden Hassen Migil", phone: "+251 91 544 1248", amount: 0 },
+            { name: "Ahmed-Hanad", phone: "+253 77 58 10 61", amount: 2000 },
+            { name: "alamdulilah", phone: "+253 77 85 47 01", amount: 0 },
+            { name: "Allah Akbar", phone: "+253 77 64 06 84", amount: 0 },
+            { name: "Axmed Cismaan", phone: "+252 63 4573095", amount: 0 },
+            { name: "Ayale Adan", phone: "+253 77 74 14 02", amount: 0 },
+            { name: "AYOUB MOHAMETH", phone: "+251 95 142 4747", amount: 0 },
+            { name: "Badriya Abubaker", phone: "+251 93 925 7503", amount: 0 },
+            { name: "Bella Habnita", phone: "+253 77 62 39 43", amount: 0 },
+            { name: "C/rasaq xaji dahir idle", phone: "+251 92 418 0931", amount: 0 },
+            { name: "Cabas Mumin Pk", phone: "+251 91 127 0927", amount: 0 },
+            { name: "caqil", phone: "+252 63 4027803", amount: 0 },
+            { name: "cise muxumad xasan", phone: "+252 63 4863863", amount: 0 },
+            { name: "Deek Djama", phone: "+253 77 61 92 61", amount: 0 },
+            { name: "dr abdek Ismael", phone: "+253 77 60 26 72", amount: 0 },
+            { name: "EngAhmed M W", phone: "+251 91 501 9211", amount: 0 },
+            { name: "Fardusa", phone: "+251 91 500 5919", amount: 0 },
+            { name: "Farhan Farah", phone: "+253 77 85 40 61", amount: 0 },
+            { name: "Farxaan Muuse", phone: "+252 63 4746455", amount: 0 },
+            { name: "Fatou Adan", phone: "+251 91 588 9188", amount: 0 },
+            { name: "Hamda", phone: "+253 77 64 98 57", amount: 0 },
+            { name: "Hassan Abdi", phone: "+253 77 66 91 77", amount: 0 },
+            { name: "HaSsaN idriss H burale", phone: "+251 91 507 2916", amount: 0 },
+            { name: "Hassan.bare", phone: "+251 91 511 8501", amount: 0 },
+            { name: "Hassan Khairesh", phone: "+253 77 85 83 97", amount: 0 },
+            { name: "Hassen Abdilahi", phone: "+251 90 838 0046", amount: 0 },
+            { name: "Hawa Isse", phone: "+251 91 501 2801", amount: 10000 },
+            { name: "Hawa.qaali", phone: "+253 77 82 31 28", amount: 0 },
+            { name: "Hindi Farah", phone: "+253 77 65 09 70", amount: 0 },
+            { name: "Hodan (Hodn)", phone: "+253 77 78 22 65", amount: 3000 },
+            { name: "hooyo (mcn)", phone: "+253 77 34 74 73", amount: 0 },
+            { name: "Houssein mogueh abdillah", phone: "+253 77 42 45 16", amount: 0 },
+            { name: "I (Lama garanayo)", phone: "+253 77 08 58 00", amount: 0 },
+            { name: "Ibrahim Nuur", phone: "+252 63 4595597", amount: 0 },
+            { name: "inahassen77327032", phone: "+253 77 32 70 32", amount: 0 },
+            { name: "Indiya", phone: "+253 77 61 33 96", amount: 0 },
+            { name: "ismail", phone: "+253 77 56 73 27", amount: 0 },
+            { name: "janogasho", phone: "+252 63 4034827", amount: 0 },
+            { name: "Kaha Ali", phone: "+253 77 66 34 59", amount: 1000 },
+            { name: "Lama garanayo (251 90 087 2088)", phone: "+251 90 087 2088", amount: 0 },
+            { name: "Lama garanayo (251 91 532 1103)", phone: "+251 91 532 1103", amount: 0 },
+            { name: "Lama garanayo (251 98 213 5051)", phone: "+251 98 213 5051", amount: 0 },
+            { name: "Lama garanayo (252 63 4539415)", phone: "+252 63 4539415", amount: 0 },
+            { name: "Lama garanayo (77256566)", phone: "+253 77 25 65 66", amount: 0 },
+            { name: "Layla xassan furre", phone: "+253 77 03 96 26", amount: 0 },
+            { name: "lolol", phone: "+253 77 50 35 21", amount: 0 },
+            { name: "mahamed abdi", phone: "+251 90 005 7721", amount: 0 },
+            { name: "Mahamed farah fadoul", phone: "+253 77 59 01 14", amount: 0 },
+            { name: "Mahamed Nur Jamac", phone: "+251 91 515 6201", amount: 0 },
+            { name: "Mahdi", phone: "+251 91 515 4891", amount: 0 },
+            { name: "Mahdi Meraneh", phone: "+253 77 81 38 36", amount: 0 },
+            { name: "Mamita", phone: "+253 77 58 38 80", amount: 0 },
+            { name: "Mehamud Mumin", phone: "+251 98 735 6653", amount: 0 },
+            { name: "Miran Malabo", phone: "+253 77 81 69 60", amount: 0 },
+            { name: "Mohamed Roble Abitidon", phone: "+251 92 647 3416", amount: 0 },
+            { name: "Mohamed.miad.hassan.", phone: "+251 91 573 1964", amount: 0 },
+            { name: "Moussa AO", phone: "+253 77 83 64 20", amount: 0 },
+            { name: "Moussa Houssein Aden", phone: "+253 77 09 27 44", amount: 0 },
+            { name: "munahusseinr", phone: "+251 93 792 5673", amount: 0 },
+            { name: "Nimale Mohammed", phone: "+251 92 817 2960", amount: 0 },
+            { name: "olohadenhassan", phone: "+253 77 82 19 16", amount: 0 },
+            { name: "Osman hussen", phone: "+251 91 500 8476", amount: 0 },
+            { name: "Osman yussuf", phone: "+251 91 573 3002", amount: 0 },
+            { name: "oussamamahamoud10", phone: "+253 77 21 37 80", amount: 0 },
+            { name: "Qalbi Noura", phone: "+253 77 47 19 18", amount: 0 },
+            { name: "Queen Of Khadija", phone: "+253 77 84 27 93", amount: 0 },
+            { name: "Quman Daahir", phone: "+252 65 4518808", amount: 0 },
+            { name: "Radrac", phone: "+252 63 8084465", amount: 0 },
+            { name: "Rahma Mahamed Houssein", phone: "+253 77 67 29 54", amount: 8000 },
+            { name: "Rahma Qaali", phone: "+253 77 47 47 71", amount: 0 },
+            { name: "Rashid Ogas Mohamed", phone: "+251 91 500 6657", amount: 0 },
+            { name: "rijal", phone: "+253 77 86 29 44", amount: 0 },
+            { name: "Robleh H. N.", phone: "+253 77 66 67 71", amount: 0 },
+            { name: "SAA", phone: "+253 77 06 37 17", amount: 0 },
+            { name: "Sacada Nura", phone: "+251 91 575 1034", amount: 0 },
+            { name: "Sacada Qumane", phone: "+251 91 515 2262", amount: 0 },
+            { name: "Sahal Djama", phone: "+253 77 47 16 36", amount: 0 },
+            { name: "Said Abdillahi Hersi", phone: "+253 77 63 04 30", amount: 0 },
+            { name: "Said Omar", phone: "+253 77 63 43 67", amount: 5000 },
+            { name: "Sakariya", phone: "+251 91 516 2425", amount: 0 },
+            { name: "SHAN KARON", phone: "+251 98 927 6632", amount: 0 },
+            { name: "SHEKH MANGO", phone: "+1 (403) 369-7133", amount: 0 },
+            { name: "shop keeper", phone: "+253 77 30 84 59", amount: 0 },
+            { name: "Shukri S", phone: "+353 85 193 6271", amount: 0 },
+            { name: "Sissy", phone: "+33 6 95 33 06 39", amount: 0 },
+            { name: "Souleiman Ahmed", phone: "+253 77 01 25 95", amount: 0 },
+            { name: "suleeman cadaani xasan bo", phone: "+253 77 45 27 25", amount: 0 },
+            { name: "Treealpha", phone: "+253 77 28 28 77", amount: 0 },
+            { name: "Umma Elham", phone: "+353 89 226 2513", amount: 0 },
+            { name: "Umo Abdrhmam", phone: "+974 5507 4593", amount: 0 },
+            { name: "wabgoudi83 (Waberi?)", phone: "+253 77 64 98 02", amount: 0 },
+            { name: "xasan Ina xaji diiriye", phone: "+252 63 4778244", amount: 0 },
+            { name: "yacin Ahmed", phone: "+253 77 41 99 78", amount: 0 },
+            { name: "سليمان عيسط (Suleiman Issa)", phone: "+253 77 84 79 13", amount: 0 }
+        ];
+
+        // ============================================================
+        // DATABASE (localStorage)
+        // ============================================================
+        function getDB() {
+            let db = localStorage.getItem('gurmadka_db');
+            if (db) { try { return JSON.parse(db); } catch (e) {} }
+            const init = {
+                members: [],
+                payments: [],
+                nextMemberId: 1,
+                nextPaymentId: 1
+            };
+            MEMBERS_DATA.forEach((m, idx) => {
+                const id = idx + 1;
+                init.members.push({
+                    id: id,
+                    name: m.name,
+                    phone: m.phone || 'Lama helin',
+                    date: new Date().toISOString()
+                });
+                if (m.amount > 0) {
+                    init.payments.push({
+                        id: init.nextPaymentId++,
+                        memberId: id,
+                        amount: m.amount,
+                        date: new Date().toISOString()
+                    });
+                }
+            });
+            init.nextMemberId = MEMBERS_DATA.length + 1;
+            localStorage.setItem('gurmadka_db', JSON.stringify(init));
+            return init;
+        }
+
+        function saveDB(db) {
+            localStorage.setItem('gurmadka_db', JSON.stringify(db));
+        }
+
+        function getMemberTotal(memberId, db) {
+            let sum = 0;
+            db.payments.forEach(p => { if (p.memberId === memberId) sum += p.amount; });
+            return sum;
+        }
+
+        // ============================================================
+        // LOGIN / LOGOUT
+        // ============================================================
+        function adminLogin() {
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const err = document.getElementById('loginError');
+            if (user === VALID_USER && pass === VALID_PASS) {
+                appMode = 'admin';
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('app').style.display = 'block';
+                document.getElementById('app').classList.remove('guest-mode');
+                renderAll();
+                err.textContent = '';
+            } else {
+                err.textContent = '❌ Username ama Password khalad!';
+            }
+        }
+
+        function guestLogin() {
+            appMode = 'guest';
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            document.getElementById('app').classList.add('guest-mode');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('tab-invited').classList.add('active');
+            renderAll();
+        }
+
+        function logout() {
+            appMode = 'login';
+            document.getElementById('app').style.display = 'none';
+            document.getElementById('app').classList.remove('guest-mode');
+            document.getElementById('loginOverlay').style.display = 'flex';
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector('.tab-btn[data-tab="warbixin"]').classList.add('active');
+            document.getElementById('tab-warbixin').classList.add('active');
+        }
+
+        // ============================================================
+        // INLINE EDITING SYSTEM – all tables editable
+        // ============================================================
+        let activeEdit = null; // { cell, input, oldValue, type, id, field }
+
+        function startEdit(cell, type, id, field) {
+            if (appMode !== 'admin') return;
+            if (activeEdit) cancelEdit();
+
+            const oldValue = cell.dataset.rawValue || cell.textContent.trim();
+            const input = document.createElement('input');
+            input.type = (field === 'amount' || field === 'paymentAmount') ? 'number' : 'text';
+            input.className = 'cell-input';
+            input.value = oldValue;
+            input.step = (field === 'amount' || field === 'paymentAmount') ? '100' : 'any';
+            input.min = (field === 'amount' || field === 'paymentAmount') ? '0' : '';
+
+            cell.classList.add('editing');
+            cell.innerHTML = '';
+            const wrap = document.createElement('div');
+            wrap.className = 'cell-input-wrap';
+            wrap.appendChild(input);
+            const hint = document.createElement('span');
+            hint.className = 'cell-save-hint';
+            hint.textContent = '↵ save';
+            wrap.appendChild(hint);
+            cell.appendChild(wrap);
+
+            input.focus();
+            input.select();
+
+            activeEdit = { cell, input, oldValue, type, id, field };
+
+            const save = () => { if (activeEdit) finishEdit(); };
+            input.addEventListener('blur', save);
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') { e.preventDefault();
+                    save(); }
+                if (e.key === 'Escape') { e.preventDefault();
+                    cancelEdit(); }
+            });
+        }
+
+        function cancelEdit() {
+            if (!activeEdit) return;
+            const { cell, oldValue } = activeEdit;
+            cell.classList.remove('editing');
+            cell.textContent = oldValue;
+            cell.dataset.rawValue = oldValue;
+            activeEdit = null;
+        }
+
+        function finishEdit() {
+            if (!activeEdit) return;
+            const { cell, input, type, id, field, oldValue } = activeEdit;
+            const newValue = input.value.trim();
+            cell.classList.remove('editing');
+
+            if (newValue === oldValue) {
+                cell.textContent = oldValue;
+                cell.dataset.rawValue = oldValue;
+                activeEdit = null;
+                return;
+            }
+
+            if (!newValue && field !== 'amount' && field !== 'paymentAmount') {
+                cell.textContent = oldValue;
+                cell.dataset.rawValue = oldValue;
+                activeEdit = null;
+                return;
+            }
+
+            // Save to DB
+            const db = getDB();
+            let success = false;
+
+            if (type === 'member') {
+                const member = db.members.find(m => m.id === id);
+                if (member) {
+                    if (field === 'name') {
+                        member.name = newValue;
+                        success = true;
+                    } else if (field === 'phone') {
+                        member.phone = newValue || 'Lama helin';
+                        success = true;
+                    }
+                }
+            } else if (type === 'payment') {
+                const payment = db.payments.find(p => p.id === id);
+                if (payment) {
+                    if (field === 'amount' || field === 'paymentAmount') {
+                        const num = parseFloat(newValue);
+                        if (!isNaN(num) && num >= 0) {
+                            payment.amount = num;
+                            success = true;
+                        }
+                    } else if (field === 'date') {
+                        const d = new Date(newValue);
+                        if (!isNaN(d.getTime())) {
+                            payment.date = newValue;
+                            success = true;
+                        }
+                    }
+                }
+            }
+
+            if (success) {
+                saveDB(db);
+                cell.textContent = field === 'amount' || field === 'paymentAmount' ?
+                    parseFloat(newValue).toLocaleString() :
+                    newValue;
+                cell.dataset.rawValue = newValue;
+                renderAll();
+            } else {
+                cell.textContent = oldValue;
+                cell.dataset.rawValue = oldValue;
+            }
+            activeEdit = null;
+        }
+
+        // Global click to cancel editing if clicking outside
+        document.addEventListener('click', function(e) {
+            if (activeEdit && !activeEdit.cell.contains(e.target)) {
+                if (activeEdit.input && document.activeElement !== activeEdit.input) {
+                    finishEdit();
+                }
+            }
+        });
+
+        // ============================================================
+        // ACTION FUNCTIONS: Edit Member / Payment (popup prompt)
+        // ============================================================
+        function editMember(id) {
+            if (appMode !== 'admin') return;
+            const db = getDB();
+            const member = db.members.find(m => m.id === id);
+            if (!member) return;
+            const newName = prompt('Sax magaca:', member.name);
+            if (newName !== null && newName.trim() !== '') {
+                member.name = newName.trim();
+                saveDB(db);
+                renderAll();
+            }
+            // Phone edit
+            const newPhone = prompt('Sax taleefanka:', member.phone);
+            if (newPhone !== null) {
+                member.phone = newPhone.trim() || 'Lama helin';
+                saveDB(db);
+                renderAll();
+            }
+        }
+
+        function editPayment(id) {
+            if (appMode !== 'admin') return;
+            const db = getDB();
+            const payment = db.payments.find(p => p.id === id);
+            if (!payment) return;
+            const newAmount = prompt('Sax lacagta (FDJ):', payment.amount);
+            if (newAmount !== null) {
+                const num = parseFloat(newAmount);
+                if (!isNaN(num) && num >= 0) {
+                    payment.amount = num;
+                    saveDB(db);
+                    renderAll();
+                } else {
+                    alert('Lacag sax ah geli.');
+                }
+            }
+            const dateStr = payment.date ? payment.date.slice(0, 10) : '';
+            const newDate = prompt('Sax taariikhda (YYYY-MM-DD):', dateStr);
+            if (newDate !== null) {
+                const d = new Date(newDate);
+                if (!isNaN(d.getTime())) {
+                    payment.date = newDate;
+                    saveDB(db);
+                    renderAll();
+                } else {
+                    alert('Taariikh sax ah geli (YYYY-MM-DD).');
+                }
+            }
+        }
+
+        function deleteMember(id) {
+            if (appMode !== 'admin') return;
+            if (!confirm('Ma hubtaa inaad tirtirto xubintan? Dhammaan bixiinteeda waa la tirtiri doonaa.')) return;
+            const db = getDB();
+            // remove all payments for this member
+            db.payments = db.payments.filter(p => p.memberId !== id);
+            db.members = db.members.filter(m => m.id !== id);
+            saveDB(db);
+            renderAll();
+        }
+
+        // ============================================================
+        // RENDER FUNCTIONS
+        // ============================================================
+        function renderAll() {
+            const db = getDB();
+            const total = db.members.length;
+            let payeCount = 0,
+                totalAmount = 0;
+            const paidMembers = [],
+                unpaidMembers = [];
+            db.members.forEach(m => {
+                const amt = getMemberTotal(m.id, db);
+                totalAmount += amt;
+                if (amt > 0) { payeCount++;
+                    paidMembers.push({ name: m.name, amount: amt, id: m.id }); } else { unpaidMembers.push({ name: m
+                        .name, phone: m.phone, id: m.id }); }
+            });
+            const impayeCount = total - payeCount;
+
+            // ---- Warbixin stats ----
+            document.getElementById('sTotal').textContent = total;
+            document.getElementById('sPaye').textContent = payeCount;
+            document.getElementById('sImpaye').textContent = impayeCount;
+            document.getElementById('sMontant').textContent = totalAmount.toLocaleString() + ' FDJ';
+            document.getElementById('reportDate').textContent = '📅 ' + new Date().toLocaleDateString('so-SO', { year: 'numeric',
+                month: 'long', day: 'numeric' });
+
+            // ---- Tirakoob stats ----
+            const pctPaye = total ? Math.round((payeCount / total) * 100) : 0;
+            const pctImpaye = total ? Math.round((impayeCount / total) * 100) : 0;
+            document.getElementById('tTotal').textContent = total;
+            document.getElementById('tPaye').textContent = pctPaye + '% (' + payeCount + ')';
+            document.getElementById('tImpaye').textContent = pctImpaye + '% (' + impayeCount + ')';
+            document.getElementById('tMontant').textContent = totalAmount.toLocaleString() + ' FDJ';
+
+            // ---- Paid / Unpaid lists (read‑only) ----
+            let htmlPaid = '';
+            paidMembers.forEach(p => {
+                htmlPaid +=
+                    `<tr><td>${p.name}</td><td style="text-align:right;font-weight:600;">${p.amount.toLocaleString()} FDJ</td></tr>`;
+            });
+            document.getElementById('paidList').innerHTML = htmlPaid || '<tr><td colspan="2">Ma jiraan kuwo bixiyey</td></tr>';
+
+            let htmlUnpaid = '';
+            unpaidMembers.forEach(u => {
+                htmlUnpaid += `<tr><td>${u.name}</td><td>${u.phone}</td></tr>`;
+            });
+            document.getElementById('unpaidList').innerHTML = htmlUnpaid || '<tr><td colspan="2">Dhammaan way bixiyeen!</td></tr>';
+
+            // ---- Full table (admin – editable name & phone + actions) ----
+            const tbody = document.getElementById('fullTable');
+            let htmlFull = '';
+            db.members.forEach((m, idx) => {
+                const amt = getMemberTotal(m.id, db);
+                const status = amt > 0 ? 'Payé' : 'Impayé';
+                const cls = amt > 0 ? 'paye' : 'impaye';
+                htmlFull += `<tr class="${cls}" data-member-id="${m.id}">
+                    <td>${idx+1}</td>
+                    <td class="editable-cell" data-editable="true" data-type="member" data-id="${m.id}" data-field="name" data-raw-value="${m.name.replace(/"/g,'&quot;')}">${m.name}</td>
+                    <td class="editable-cell" data-editable="true" data-type="member" data-id="${m.id}" data-field="phone" data-raw-value="${m.phone.replace(/"/g,'&quot;')}">${m.phone}</td>
+                    <td style="text-align:right;font-weight:600;">${amt > 0 ? amt.toLocaleString() : '0'}</td>
+                    <td>${status}</td>
+                    <td>
+                        <div class="action-cell">
+                            <button class="btn btn-warning btn-sm" onclick="editMember(${m.id})">✏️ Sax</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteMember(${m.id})">🗑️ Tirtir</button>
+                        </div>
+                    </td>
+                </tr>`;
+            });
+            tbody.innerHTML = htmlFull;
+
+            // ---- Invited table – editable name only (no phone) + actions ----
+            const invitedBody = document.getElementById('invitedTable');
+            let htmlInv = '';
+            db.members.forEach((m, idx) => {
+                const amt = getMemberTotal(m.id, db);
+                const status = amt > 0 ? 'Payé' : 'Impayé';
+                const cls = amt > 0 ? 'paye' : 'impaye';
+                htmlInv += `<tr class="${cls}" data-member-id="${m.id}">
+                    <td>${idx+1}</td>
+                    <td class="editable-cell" data-editable="true" data-type="member" data-id="${m.id}" data-field="name" data-raw-value="${m.name.replace(/"/g,'&quot;')}">${m.name}</td>
+                    <td style="text-align:right;font-weight:600;">${amt > 0 ? amt.toLocaleString() : '0'}</td>
+                    <td>${status}</td>
+                    <td>
+                        <div class="action-cell">
+                            <button class="btn btn-warning btn-sm" onclick="editMember(${m.id})">✏️ Sax</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteMember(${m.id})">🗑️ Tirtir</button>
+                        </div>
+                    </td>
+                </tr>`;
+            });
+            invitedBody.innerHTML = htmlInv;
+
+            // ---- Populate payment selects ----
+            const selects = ['paymentMember', 'paymentMember2'];
+            selects.forEach(id => {
+                const sel = document.getElementById(id);
+                if (!sel) return;
+                const currentVal = sel.value;
+                sel.innerHTML = '<option value="">-- Dooro Xubin --</option>';
+                db.members.forEach(m => {
+                    const opt = document.createElement('option');
+                    opt.value = m.id;
+                    opt.textContent = m.name;
+                    sel.appendChild(opt);
+                });
+                if (currentVal) sel.value = currentVal;
+            });
+
+            renderPaymentTable('paymentTable');
+            renderPaymentTable('paymentTable2');
+
+            document.getElementById('footerTotal').textContent = totalAmount.toLocaleString();
+            document.getElementById('footerPaye').textContent = payeCount;
+            document.getElementById('footerImpaye').textContent = impayeCount;
+            document.getElementById('footerDate').textContent = new Date().toLocaleDateString('so-SO', { year: 'numeric',
+                month: 'long', day: 'numeric' });
+
+            // ---- Re-bind edit events ----
+            bindEditableCells();
+        }
+
+        function renderPaymentTable(tableId) {
+            const db = getDB();
+            const tbody = document.getElementById(tableId);
+            if (!tbody) return;
+            if (db.payments.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5">Ma jiraan bixiino</td></tr>';
+                return;
+            }
+            let html = '';
+            const sorted = [...db.payments].reverse();
+            sorted.forEach(p => {
+                const member = db.members.find(m => m.id === p.memberId);
+                const name = member ? member.name : 'Lama garanayo';
+                const dateStr = p.date ? p.date.slice(0, 10) : '';
+                html += `<tr data-payment-id="${p.id}">
+                    <td>${p.id}</td>
+                    <td>${name}</td>
+                    <td style="text-align:right;font-weight:600;" class="editable-cell" data-editable="true" data-type="payment" data-id="${p.id}" data-field="amount" data-raw-value="${p.amount}">${p.amount.toLocaleString()} FDJ</td>
+                    <td class="editable-cell" data-editable="true" data-type="payment" data-id="${p.id}" data-field="date" data-raw-value="${dateStr}">${new Date(p.date).toLocaleDateString('so-SO')}</td>
+                    <td>
+                        <div class="action-cell">
+                            <button class="btn btn-warning btn-sm" onclick="editPayment(${p.id})">✏️ Sax</button>
+                            <button class="btn btn-danger btn-sm" onclick="deletePayment(${p.id})">🗑️ Tirtir</button>
+                        </div>
+                    </td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+            bindEditableCells();
+        }
+
+        // ============================================================
+        // BIND EDITABLE CELLS (event delegation via dblclick)
+        // ============================================================
+        function bindEditableCells() {
+            // Event delegation for dblclick
+        }
+
+        document.addEventListener('dblclick', function(e) {
+            if (appMode !== 'admin') return;
+            const cell = e.target.closest('.editable-cell');
+            if (!cell) return;
+            if (activeEdit) {
+                if (activeEdit.cell !== cell) {
+                    finishEdit();
+                    setTimeout(() => {
+                        const type = cell.dataset.type;
+                        const id = parseInt(cell.dataset.id);
+                        const field = cell.dataset.field;
+                        if (type && id && field) {
+                            startEdit(cell, type, id, field);
+                        }
+                    }, 50);
+                }
+                return;
+            }
+            const type = cell.dataset.type;
+            const id = parseInt(cell.dataset.id);
+            const field = cell.dataset.field;
+            if (type && id && field) {
+                startEdit(cell, type, id, field);
+            }
+        });
+
+        // ============================================================
+        // ADD MEMBER
+        // ============================================================
+        function addMember() {
+            if (appMode !== 'admin') return;
+            const name = document.getElementById('newName').value.trim();
+            const phone = document.getElementById('newPhone').value.trim();
+            const msg = document.getElementById('addMemberMessage');
+            if (!name) {
+                msg.className = 'message error';
+                msg.textContent = '⚠️ Fadlan geli magaca.';
+                return;
+            }
+            const db = getDB();
+            if (db.members.some(m => m.name.toLowerCase() === name.toLowerCase())) {
+                msg.className = 'message error';
+                msg.textContent = '⚠️ Magacan wuu jiraa liiska.';
+                return;
+            }
+            db.members.push({
+                id: db.nextMemberId++,
+                name: name,
+                phone: phone || 'Lama helin',
+                date: new Date().toISOString()
+            });
+            saveDB(db);
+            msg.className = 'message success';
+            msg.textContent = `✅ ${name} waa lagu daray liiska!`;
+            document.getElementById('newName').value = '';
+            document.getElementById('newPhone').value = '';
+            renderAll();
+            setTimeout(() => { msg.className = 'message'; }, 3000);
+        }
+
+        // ============================================================
+        // ADD PAYMENT
+        // ============================================================
+        function addPayment() {
+            if (appMode !== 'admin') return;
+            addPaymentGeneric('paymentMember', 'paymentAmount', 'paymentDate', 'paymentMessage');
+        }
+
+        function addPayment2() {
+            if (appMode !== 'admin') return;
+            addPaymentGeneric('paymentMember2', 'paymentAmount2', 'paymentDate2', 'paymentMessage2');
+        }
+
+        function addPaymentGeneric(memberIdEl, amountEl, dateEl, msgEl) {
+            const memberId = parseInt(document.getElementById(memberIdEl).value);
+            const amount = parseInt(document.getElementById(amountEl).value);
+            const date = document.getElementById(dateEl).value;
+            const msg = document.getElementById(msgEl);
+            if (!memberId) { msg.className = 'message error';
+                msg.textContent = '⚠️ Dooro xubin.'; return; }
+            if (!amount || amount < 100) { msg.className = 'message error';
+                msg.textContent = '⚠️ Lacag sax ah (≥100 FDJ).'; return; }
+            const db = getDB();
+            const member = db.members.find(m => m.id === memberId);
+            if (!member) { msg.className = 'message error';
+                msg.textContent = '⚠️ Xubin lama helin.'; return; }
+            db.payments.push({
+                id: db.nextPaymentId++,
+                memberId: memberId,
+                amount: amount,
+                date: date || new Date().toISOString()
+            });
+            saveDB(db);
+            msg.className = 'message success';
+            msg.textContent = `✅ ${member.name} wuxuu bixiyay ${amount.toLocaleString()} FDJ!`;
+            document.getElementById(amountEl).value = '';
+            document.getElementById(dateEl).value = '';
+            renderAll();
+            setTimeout(() => { msg.className = 'message'; }, 3000);
+        }
+
+        // ============================================================
+        // DELETE / CLEAR PAYMENTS
+        // ============================================================
+        function deletePayment(id) {
+            if (appMode !== 'admin') return;
+            if (!confirm('Tirtir bixintan?')) return;
+            const db = getDB();
+            db.payments = db.payments.filter(p => p.id !== id);
+            saveDB(db);
+            renderAll();
+        }
+
+        function clearAllPayments() {
+            if (appMode !== 'admin') return;
+            if (!confirm('Nadiifi dhammaan bixiinta? Lama soo celin karo.')) return;
+            const db = getDB();
+            db.payments = [];
+            saveDB(db);
+            renderAll();
+        }
+
+        // ============================================================
+        // EXPORT
+        // ============================================================
+        function getExportData(includePhone) {
+            const db = getDB();
+            return db.members.map(m => {
+                const amt = getMemberTotal(m.id, db);
+                return {
+                    name: m.name,
+                    phone: includePhone ? m.phone : '🔒',
+                    amount: amt,
+                    status: amt > 0 ? 'Payé' : 'Impayé'
+                };
+            });
+        }
+
+        function exportPDF(includePhone) {
+            const data = getExportData(includePhone);
+            const paye = data.filter(d => d.amount > 0).length;
+            const total = data.reduce((s, d) => s + d.amount, 0);
+            let html =
+                `<html><head><meta charset="UTF-8"><title>Liiska Qaadhaanka</title>
+            <style>
+                body { font-family:'Segoe UI',Arial,sans-serif; padding:40px; }
+                h1 { color:#1f6e8c; text-align:center; border-bottom:3px solid #1f6e8c; padding-bottom:10px; }
+                h2 { text-align:center; color:#2c7da0; }
+                table { width:100%; border-collapse:collapse; margin:20px 0; font-size:11px; }
+                th { background:#1f6e8c; color:white; padding:8px 10px; text-align:left; }
+                td { padding:6px 10px; border-bottom:1px solid #ddd; }
+                tr:nth-child(even) { background:#f9f9f9; }
+                .paye { background:#d4edda; }
+                .impaye { background:#f8d7da; }
+                .stat-box { display:flex; gap:15px; justify-content:center; margin:20px 0; flex-wrap:wrap; }
+                .stat-item { background:#f0f4f8; padding:8px 20px; border-radius:10px; text-align:center; }
+                .stat-number { font-size:20px; font-weight:bold; color:#1f6e8c; }
+                .stat-label { font-size:11px; color:#555; }
+                .footer { text-align:center; margin-top:25px; font-size:11px; color:#777; border-top:1px solid #ddd; padding-top:12px; }
+            </style></head><body>
+                <h1>📋 LIISKA QAADHAANKA</h1>
+                <h2>Ururka Gurmadka Guban · Reer Cabdirxmaan Ceeleye</h2>
+                <p style="text-align:center;">Taariikhda: ${new Date().toLocaleDateString('so-SO')}</p>
+                <p style="text-align:center;">🌐 ururkagurmadkaguban.blogspot.com</p>
+                <div class="stat-box">
+                    <div class="stat-item"><div class="stat-number">${data.length}</div><div class="stat-label">Wadarta Xubnaha</div></div>
+                    <div class="stat-item"><div class="stat-number">${paye}</div><div class="stat-label">✅ Payé</div></div>
+                    <div class="stat-item"><div class="stat-number">${data.length - paye}</div><div class="stat-label">❌ Impayé</div></div>
+                    <div class="stat-item"><div class="stat-number">${total.toLocaleString()} FDJ</div><div class="stat-label">Wadarta Lacagta</div></div>
+                </div>
+                <table><thead><tr><th>#</th><th>Magaca</th>`;
+            if (includePhone) html += `<th>Telefoon</th>`;
+            html += `<th style="text-align:right;">Lacagta (FDJ)</th><th>Xaalad</th></tr></thead><tbody>`;
+            data.forEach((d, i) => {
+                const cls = d.amount > 0 ? 'paye' : 'impaye';
+                html += `<tr class="${cls}"><td>${i+1}</td><td>${d.name}</td>`;
+                if (includePhone) html += `<td>${d.phone}</td>`;
+                html += `<td style="text-align:right;">${d.amount.toLocaleString()}</td><td>${d.status}</td></tr>`;
+            });
+            html += `</tbody></table>
+                <div class="footer"><p>📅 ${new Date().toLocaleDateString('so-SO')}</p><p>🏠 Ururka Gurmadka Guban · 🌐 ururkagurmadkaguban.blogspot.com</p><p>🔗 https://chat.whatsapp.com/DnGaA64JJ7DFMDyVsUtQJi</p></div>
+            </body></html>`;
+            const win = window.open('', '_blank', 'width=900,height=700');
+            if (!win) { alert('Fadlan ogolow pop-up.'); return; }
+            win.document.write(html);
+            win.document.close();
+            win.focus();
+            win.print();
+            win.onafterprint = function() { win.close(); };
+        }
+
+        function exportWord(includePhone) {
+            const data = getExportData(includePhone);
+            const paye = data.filter(d => d.amount > 0).length;
+            const total = data.reduce((s, d) => s + d.amount, 0);
+            let html =
+                `<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+            <head><meta charset="UTF-8"><title>Liiska Qaadhaanka</title>
+            <style>
+                body { font-family:'Segoe UI',Arial,sans-serif; padding:30px; }
+                h1 { color:#1f6e8c; text-align:center; border-bottom:3px solid #1f6e8c; padding-bottom:10px; }
+                h2 { text-align:center; color:#2c7da0; }
+                table { width:100%; border-collapse:collapse; margin:20px 0; font-size:10pt; }
+                th { background:#1f6e8c; color:white; padding:8px 10px; text-align:left; }
+                td { padding:6px 10px; border-bottom:1px solid #ddd; }
+                .paye { background:#d4edda; }
+                .impaye { background:#f8d7da; }
+                .stat-box { display:flex; gap:15px; justify-content:center; margin:20px 0; flex-wrap:wrap; }
+                .stat-item { background:#f0f4f8; padding:8px 20px; border-radius:10px; text-align:center; }
+                .stat-number { font-size:18pt; font-weight:bold; color:#1f6e8c; }
+                .stat-label { font-size:9pt; color:#555; }
+                .footer { text-align:center; margin-top:25px; font-size:10pt; color:#777; border-top:1px solid #ddd; padding-top:12px; }
+            </style></head><body>
+                <h1>📋 LIISKA QAADHAANKA</h1>
+                <h2>Ururka Gurmadka Guban · Reer Cabdirxmaan Ceeleye</h2>
+                <p style="text-align:center;">Taariikhda: ${new Date().toLocaleDateString('so-SO')}</p>
+                <p style="text-align:center;">🌐 ururkagurmadkaguban.blogspot.com</p>
+                <div class="stat-box">
+                    <div class="stat-item"><div class="stat-number">${data.length}</div><div class="stat-label">Wadarta Xubnaha</div></div>
+                    <div class="stat-item"><div class="stat-number">${paye}</div><div class="stat-label">✅ Payé</div></div>
+                    <div class="stat-item"><div class="stat-number">${data.length - paye}</div><div class="stat-label">❌ Impayé</div></div>
+                    <div class="stat-item"><div class="stat-number">${total.toLocaleString()} FDJ</div><div class="stat-label">Wadarta Lacagta</div></div>
+                </div>
+                <table><thead><tr><th>#</th><th>Magaca</th>`;
+            if (includePhone) html += `<th>Telefoon</th>`;
+            html += `<th style="text-align:right;">Lacagta (FDJ)</th><th>Xaalad</th></tr></thead><tbody>`;
+            data.forEach((d, i) => {
+                const cls = d.amount > 0 ? 'paye' : 'impaye';
+                html += `<tr class="${cls}"><td>${i+1}</td><td>${d.name}</td>`;
+                if (includePhone) html += `<td>${d.phone}</td>`;
+                html += `<td style="text-align:right;">${d.amount.toLocaleString()}</td><td>${d.status}</td></tr>`;
+            });
+            html += `</tbody></table>
+                <div class="footer"><p>📅 ${new Date().toLocaleDateString('so-SO')}</p><p>🏠 Ururka Gurmadka Guban · 🌐 ururkagurmadkaguban.blogspot.com</p><p>🔗 https://chat.whatsapp.com/DnGaA64JJ7DFMDyVsUtQJi</p></div>
+            </body></html>`;
+            const blob = new Blob([html], { type: 'application/msword' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Liiska_Qaadhaanka_${new Date().toISOString().slice(0, 10)}.doc`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        function exportExcel(includePhone) {
+            const data = getExportData(includePhone);
+            let csv = 'Tir.,Magaca';
+            if (includePhone) csv += ',Telefoon';
+            csv += ',Lacagta (FDJ),Xaalad\n';
+            data.forEach((d, i) => {
+                csv += `${i+1},"${d.name}"`;
+                if (includePhone) csv += `,"${d.phone}"`;
+                csv += `,${d.amount},"${d.status}"\n`;
+            });
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Liiska_Qaadhaanka_${new Date().toISOString().slice(0, 10)}.csv`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        // ============================================================
+        // TABS
+        // ============================================================
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (appMode === 'guest') {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    document.querySelector('.tab-btn[data-tab="invited"]').classList.add('active');
+                    document.getElementById('tab-invited').classList.add('active');
+                    return;
+                }
+                document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false'); });
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                this.setAttribute('aria-selected', 'true');
+                document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+            });
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        function init() {
+            if (!localStorage.getItem('gurmadka_db')) getDB();
+            document.getElementById('loginOverlay').style.display = 'flex';
+            document.getElementById('app').style.display = 'none';
+        }
+        init();
+    </script>
+</body>
+</html>
